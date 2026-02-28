@@ -40,7 +40,10 @@ export default function PaymentForm({ trip, onSubmit, isLoading }) {
     const validate = () => {
         const errs = {};
         if (!form.student_name.trim()) errs.student_name = 'Student name is required.';
+        else if (form.student_name.length > 200) errs.student_name = 'Student name cannot exceed 200 characters.';
+
         if (!form.parent_name.trim()) errs.parent_name = 'Parent / guardian name is required.';
+        else if (form.parent_name.length > 200) errs.parent_name = 'Parent name cannot exceed 200 characters.';
         const cardClean = form.card_number.replace(/\s/g, '');
         if (!/^\d{16}$/.test(cardClean)) errs.card_number = 'Enter a valid 16-digit card number.';
         if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(form.expiry_date))
@@ -80,6 +83,7 @@ export default function PaymentForm({ trip, onSubmit, isLoading }) {
                     value={form.student_name}
                     onChange={handleChange}
                     error={errors.student_name}
+                    maxLength={200}
                 />
                 <Field
                     label="Parent / Guardian Name"
@@ -88,6 +92,7 @@ export default function PaymentForm({ trip, onSubmit, isLoading }) {
                     value={form.parent_name}
                     onChange={handleChange}
                     error={errors.parent_name}
+                    maxLength={200}
                 />
             </div>
 

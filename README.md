@@ -138,6 +138,4 @@ This project was built with the help of AI, which played a major role in its dev
 - **Implementation**: Wrote all core code including models, views, API integration, and the modern UI.
 - **Verification**: Built and executed automated unit tests and stress tests to ensure system reliability.
 
----
-*Built with the help of AI.*
 
