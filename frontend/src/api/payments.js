@@ -1,3 +1,5 @@
+const API_BASE = '/api';
+
 /**
  * Fetch all available trips.
  */
