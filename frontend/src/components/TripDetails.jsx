@@ -60,7 +60,7 @@ function InfoChip({ icon, label, value, highlight }) {
                     {label}
                 </span>
                 <span
-                    className={`block text-sm font-semibold mt-0.5 ${highlight ? 'text-accent-500' : 'text-surface-800'
+                    className={`block text-sm font-semibold mt-0.5 break-words ${highlight ? 'text-accent-500' : 'text-surface-800'
                         }`}
                 >
                     {value}

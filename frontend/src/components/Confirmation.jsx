@@ -8,8 +8,8 @@ export default function Confirmation({ result, onReset }) {
             {/* Icon */}
             <div
                 className={`mx-auto w-16 h-16 flex items-center justify-center rounded-full text-3xl mb-4 ${isSuccess
-                        ? 'bg-success-500/15 text-success-500'
-                        : 'bg-danger-500/15 text-danger-500'
+                    ? 'bg-success-500/15 text-success-500'
+                    : 'bg-danger-500/15 text-danger-500'
                     }`}
             >
                 {isSuccess ? '✓' : '✗'}
@@ -53,9 +53,9 @@ export default function Confirmation({ result, onReset }) {
 
 function Row({ label, value, mono }) {
     return (
-        <div className="flex justify-between gap-2">
-            <span className="text-surface-700/70">{label}</span>
-            <span className={`font-medium text-surface-800 ${mono ? 'font-mono text-xs mt-0.5' : ''}`}>
+        <div className="flex justify-between gap-4 py-1">
+            <span className="text-surface-700/70 flex-shrink-0">{label}</span>
+            <span className={`font-medium text-surface-800 break-words text-right ${mono ? 'font-mono text-xs mt-0.5' : ''}`}>
                 {value || '—'}
             </span>
         </div>
