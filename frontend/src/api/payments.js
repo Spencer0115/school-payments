@@ -1,17 +1,6 @@
 const API_BASE = '/api';
 
 /**
- * Fetch all available trips.
- */
-export async function fetchTrips() {
-    const res = await fetch(`${API_BASE}/trips/`);
-    if (!res.ok) {
-        throw new Error('Failed to load trips.');
-    }
-    return res.json();
-}
-
-/**
  * Fetch trip details by ID.
  */
 export async function fetchTrip(tripId) {

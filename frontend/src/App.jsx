@@ -1,38 +1,32 @@
 import { useState, useEffect } from 'react';
-import TripList from './components/TripList';
 import TripDetails from './components/TripDetails';
 import PaymentForm from './components/PaymentForm';
 import Confirmation from './components/Confirmation';
-import { fetchTrips, submitPayment } from './api/payments';
+import { fetchTrip, submitPayment } from './api/payments';
 
-const STEPS = ['list', 'details', 'payment', 'confirmation'];
+const TRIP_ID = 1; // Seeded trip
+const STEPS = ['details', 'payment', 'confirmation'];
 
 export default function App() {
-  const [step, setStep] = useState('list');
-  const [trips, setTrips] = useState([]);
-  const [selectedTrip, setSelectedTrip] = useState(null);
+  const [step, setStep] = useState('details');
+  const [trip, setTrip] = useState(null);
   const [loading, setLoading] = useState(true);
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchTrips()
-      .then(setTrips)
+    fetchTrip(TRIP_ID)
+      .then(setTrip)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
-
-  const handleTripSelect = (trip) => {
-    setSelectedTrip(trip);
-    setStep('details');
-  };
 
   const handlePaymentSubmit = async (data) => {
     setPaymentLoading(true);
     setError('');
     try {
-      const res = await submitPayment({ ...data, trip_id: selectedTrip.id });
+      const res = await submitPayment(data);
       setResult(res);
       setStep('confirmation');
     } catch (err) {
@@ -44,8 +38,7 @@ export default function App() {
   };
 
   const handleReset = () => {
-    setStep('list');
-    setSelectedTrip(null);
+    setStep('details');
     setResult(null);
     setError('');
   };
@@ -56,14 +49,14 @@ export default function App() {
       <Shell>
         <div className="flex flex-col items-center justify-center py-20 gap-3">
           <div className="spinner-lg" />
-          <p className="text-sm text-surface-700/60">Loading available trips…</p>
+          <p className="text-sm text-surface-700/60">Loading trip details…</p>
         </div>
       </Shell>
     );
   }
 
-  /* ── Error loading trips ── */
-  if (error && trips.length === 0) {
+  /* ── Error loading trip ── */
+  if (error && !trip) {
     return (
       <Shell>
         <div className="text-center py-16">
@@ -96,20 +89,8 @@ export default function App() {
         </div>
       )}
 
-      {step === 'list' && (
-        <TripList trips={trips} onSelect={handleTripSelect} />
-      )}
-
       {step === 'details' && (
-        <div>
-          <button
-            className="btn-secondary mb-4 text-sm"
-            onClick={() => setStep('list')}
-          >
-            ← Back to List
-          </button>
-          <TripDetails trip={selectedTrip} onRegister={() => setStep('payment')} />
-        </div>
+        <TripDetails trip={trip} onRegister={() => setStep('payment')} />
       )}
 
       {step === 'payment' && (
@@ -121,7 +102,7 @@ export default function App() {
             ← Back
           </button>
           <PaymentForm
-            trip={selectedTrip}
+            trip={trip}
             onSubmit={handlePaymentSubmit}
             isLoading={paymentLoading}
           />
