@@ -13,6 +13,14 @@ processor = LegacyPaymentProcessor()
 
 
 @api_view(["GET"])
+def trip_list(request):
+    """Fetch all available trips."""
+    trips = Trip.objects.all().order_by("-date")
+    serializer = TripSerializer(trips, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
 def trip_detail(request, trip_id):
     """Fetch details for a specific trip."""
     try:
